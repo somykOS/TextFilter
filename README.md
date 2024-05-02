@@ -24,3 +24,5 @@ Regex:
 
 This mod uses [fabric-permission-api](https://github.com/lucko/fabric-permissions-api/). <br>
 To manage these permission, you can use [LuckPerms](https://modrinth.com/mod/luckperms) or any other mod that can be used in this way. <br>
+
+`Empty_symbol_replacement` is used when player renames item with blacklist symbols only.
