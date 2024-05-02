@@ -1,0 +1,33 @@
+{
+	"schemaVersion": 1,
+	"id": "textfilter",
+	"version": "${version}",
+	"name": "TextFilter",
+	"description": "",
+	"authors": [
+		"somyk"
+	],
+	"contact": {
+		"sources": "https://github.com/",
+		"discord": "somyk"
+	},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+          "net.somyk.textfilter.TextFilter"
+		]
+	},
+	"mixins": [
+		"textfilter.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.6",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
