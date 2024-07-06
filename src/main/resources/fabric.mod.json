@@ -3,12 +3,12 @@
 	"id": "textfilter",
 	"version": "${version}",
 	"name": "TextFilter",
-	"description": "",
+	"description": "This mod removes forbidden characters from signs, books, and when renaming items in anvil.",
 	"authors": [
 		"somyk"
 	],
 	"contact": {
-		"sources": "https://github.com/",
+		"sources": "https://github.com/somykOS/Fabric-TextFilter",
 		"discord": "somyk"
 	},
 	"license": "CC-BY-NC-SA-4.0",
