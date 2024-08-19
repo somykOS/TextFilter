@@ -6,36 +6,34 @@ import org.simpleyaml.configuration.file.YamlFile;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static net.somyk.textfilter.TextFilter.*;
 
 public class ModConfig {
 
-    public static final String CONFIG = "config.yml";
+    public static final String CONFIG = MOD_ID + ".yml";
     public static final String REGEX = "Regex";
     public static final String WHITELIST = "whitelist";
     public static final String BLACKLIST = "blacklist";
     public static final String SIGN = "Sign";
     public static final String BOOK = "Book";
     public static final String ANVIL = "Anvil";
-    public static final String ESymbol = "Empty_symbol_replacement";
 
     public static final String SIGN_BP = "signBypass";
     public static final String BOOK_BP = "bookBypass";
     public static final String ANVIL_BP = "anvilBypass";
 
+    private static final Path configDir = FabricLoader.getInstance().getConfigDir();
+    private static final Path configFilePath = configDir.resolve(CONFIG);
 
     public static void registerConfigs() {
-        Path path = (FabricLoader.getInstance().getConfigDir());
-        Path path2 = path.resolve(Paths.get(MOD_ID));
-        final YamlFile config = new YamlFile((path2.resolve( CONFIG ).toFile()).getAbsolutePath());
+        final YamlFile config = new YamlFile(configFilePath.toFile().getAbsolutePath());
         try {
             if (!config.exists()) {
                 config.createNewFile();
-                LOGGER.info("New file has been created: {}", (path2.resolve(CONFIG).toFile()).getPath());
+                LOGGER.info("[{}]: config has been created: {}", MOD_ID, configFilePath.toFile().getPath());
             } else {
-                LOGGER.info("{} already exists, loading configurations...", (path2.resolve(CONFIG).toFile()).getPath());
+                LOGGER.info("[{}]: loading configurations..", MOD_ID);
             }
             config.loadWithComments();
         } catch (final Exception e) {
@@ -44,30 +42,31 @@ public class ModConfig {
 
         config.addDefault(
                 String.join(".", REGEX, SIGN, WHITELIST),
-                "[]");
+                "[\\u0021-\\u007e а-я іїєґ]");
         config.addDefault(
                 String.join(".", REGEX, SIGN, BLACKLIST),
-                "[^\\s\\u0021-\\u007e\\u0410-\\u044fії]|[ыёъэ]");
+                "[ыъэ]");
 
         config.addDefault(
                 String.join(".", REGEX, BOOK, WHITELIST),
-                "[]");
+                "[\\u0021-\\u007e \\n а-я іїєґ]");
         config.addDefault(
                 String.join(".", REGEX, BOOK, BLACKLIST),
-                "[^\\s\\u0021-\\u007e\\u0410-\\u044fії]|[ыёъэ]");
+                "[ыъэ]");
 
         config.addDefault(
                 String.join(".", REGEX, ANVIL, WHITELIST),
-                "[]");
+                "[\\u0021-\\u007e а-я іїєґ]");
         config.addDefault(
                 String.join(".", REGEX, ANVIL, BLACKLIST),
-                "[^\\s\\u0021-\\u007e\\u0410-\\u044fії]|[ыёъэ]");
-        config.addDefault(
-                String.join(".", REGEX, ANVIL, ESymbol),
-                "Forbidden symbol");
+                "[ыъэ]");
 
         config.setCommentFormat(YamlCommentFormat.PRETTY);
-        config.setComment(REGEX, "To create your regex, I recommend using https://regexr.com/ and https://www.compart.com/en/unicode/block");
+        config.setComment(REGEX,
+                """
+                        To create your regex, I recommend using https://regexr.com/ and https://www.compart.com/en/unicode/block\s
+                        If whitelist is empty — all symbols will be deleted\s
+                        You can allow all symbols by putting '.' into whitelist (whitelist: '.')""");
 
         config.setComment(
                 String.join(".", REGEX, SIGN, WHITELIST),
@@ -86,23 +85,8 @@ public class ModConfig {
         }
     }
 
-    public static boolean getBooleanValue(String key){
-        Path path = (FabricLoader.getInstance().getConfigDir());
-        Path path2 = path.resolve(Paths.get(MOD_ID));
-        final YamlFile config = new YamlFile((path2.resolve( CONFIG ).toFile()).getAbsolutePath());
-        try {
-            config.loadWithComments();
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return config.getBoolean(key);
-    }
-
-    public static String getStringValue(String key){
-        Path path = (FabricLoader.getInstance().getConfigDir());
-        Path path2 = path.resolve(Paths.get(MOD_ID));
-        final YamlFile config = new YamlFile((path2.resolve( CONFIG ).toFile()).getAbsolutePath());
+    public static String getStringValue(String key) {
+        final YamlFile config = new YamlFile((configFilePath.toFile()).getAbsolutePath());
         try {
             config.loadWithComments();
         } catch (final IOException e) {
@@ -113,9 +97,7 @@ public class ModConfig {
     }
 
     public static void setValue(String key, Object newValue){
-        Path path = (FabricLoader.getInstance().getConfigDir());
-        Path path2 = path.resolve(Paths.get(MOD_ID));
-        final YamlFile config = new YamlFile((path2.resolve( CONFIG ).toFile()).getAbsolutePath());
+        final YamlFile config = new YamlFile((configFilePath.toFile()).getAbsolutePath());
 
         try {
             config.loadWithComments();
