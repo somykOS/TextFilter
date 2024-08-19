@@ -13,7 +13,7 @@ Regex:
     blacklist: '[ыъэ]'
   Book:
     # Bypass permission: textfilter.bookBypass
-    whitelist: '[\u0021-\u007e \n а-я іїєґ]'
+    whitelist: '[\u0021-\u007e \n § а-я іїєґ]'
     blacklist: '[ыъэ]'
   Anvil:
     # Bypass permission: textfilter.anvilBypass
