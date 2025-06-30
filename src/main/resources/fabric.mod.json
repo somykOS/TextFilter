@@ -8,10 +8,10 @@
 		"somyk"
 	],
 	"contact": {
-		"sources": "https://github.com/somykOS/Fabric-TextFilter",
+		"sources": "https://github.com/somykOS/TextFilter",
 		"discord": "somyk"
 	},
-	"license": "CC-BY-NC-SA-4.0",
+	"license": "MPL 2.0",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
@@ -22,12 +22,9 @@
 		"textfilter.mixins.json"
 	],
 	"depends": {
-		"fabricloader": ">=0.15.11",
-		"minecraft": "~1.21",
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.6",
 		"java": ">=21",
 		"fabric-api": "*"
-	},
-	"suggests": {
-		"another-mod": "*"
 	}
 }
