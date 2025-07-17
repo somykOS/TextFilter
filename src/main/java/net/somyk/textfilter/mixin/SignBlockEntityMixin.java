@@ -10,6 +10,7 @@ import net.minecraft.block.entity.SignBlockEntity;
 import net.minecraft.block.entity.SignText;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.filter.FilteredMessage;
+import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,7 +36,8 @@ public class SignBlockEntityMixin {
 
 	@ModifyReturnValue(method = "getTextWithMessages", at = @At("RETURN"))
 	private SignText listen(SignText original) {
-		if (Permissions.check(player, String.join(".", MOD_ID, SIGN_BP))) return original;
+		if (player instanceof ServerPlayerEntity serverPlayerEntity &&
+				Permissions.check(serverPlayerEntity, String.join(".", MOD_ID, SIGN_BP))) return original;
 		else return deleteSymbols(original);
 	}
 }

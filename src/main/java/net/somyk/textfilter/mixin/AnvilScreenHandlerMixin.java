@@ -13,6 +13,7 @@ import net.minecraft.screen.ForgingScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.ForgingSlotsManager;
+import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -33,7 +34,8 @@ public abstract class AnvilScreenHandlerMixin extends ForgingScreenHandler {
 
     @WrapOperation(method = "updateResult", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/StringHelper;isBlank(Ljava/lang/String;)Z"))
     private boolean listen(String string, Operation<Boolean> original){
-        if (Permissions.check(player, String.join(".", MOD_ID, ANVIL_BP))) return original.call(string);
+        if (player instanceof ServerPlayerEntity serverPlayerEntity &&
+                Permissions.check(serverPlayerEntity, String.join(".", MOD_ID, ANVIL_BP))) return original.call(string);
         else {
             this.newItemName = deleteSymbols(string);
             return original.call(newItemName);
